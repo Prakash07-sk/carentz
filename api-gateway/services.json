@@ -1,0 +1,38 @@
+{
+    "host": "http://localhost",
+    "authentication-service": {
+        "api": "authentication-service",
+        "port": "8095",
+        "url": "http://authentication-service:8095/"
+    },
+    "bookings-management": {
+        "api": "bookings-management",
+        "port": "8087",
+        "url": "http://bookings-management:8087/"
+    },
+    "chat-service": {
+        "api": "chat-service",
+        "port": "8086",
+        "url": "http://chat-service:8086/"
+    },
+    "chatbot-service": {
+        "api": "chatbot-service",
+        "port": "8800",
+        "url": "http://chatbot-service:8800/"
+    },
+    "user-service": {
+        "api": "user-service",
+        "port": "8081",
+        "url": "http://user-service:8081/"
+    },
+    "email-service": {
+        "api": "email-service",
+        "port": "8085",
+        "url": "http://email-service:8085/"
+    },
+    "payment-service": {
+        "api": "payment-service",
+        "port": "8084",
+        "url": "http://payment-service:8084/"
+    }
+}

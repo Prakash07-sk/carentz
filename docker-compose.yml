@@ -1,0 +1,118 @@
+version: "3.3"
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    # network_mode: host
+    ports:
+      - 27017:27017
+    restart: always
+  
+  mysql-1:
+    image: mysql:8.0
+    hostname: localhost
+    environment: 
+      - MYSQL_DATABASE=Authentication
+      - MYSQL_USER=cntz
+      - MYSQL_PASSWORD=Carentz
+      - MYSQL_ROOT_PASSWORD=Carentz
+    
+  mysql-2:
+    image: mysql:8.0
+    hostname: localhost
+    environment: 
+      - MYSQL_DATABASE=Payment
+      - MYSQL_USER=cntz
+      - MYSQL_PASSWORD=Carentz
+      - MYSQL_ROOT_PASSWORD=Carentz
+
+  api-gateway:
+    image: api-gateway
+    container_name: api-gateway
+    build: api-gateway/
+    restart: always
+    hostname: localhost
+    # network_mode: host
+    ports:
+      - 8080:8080
+
+  user-service:
+    container_name: user-service
+    build: user-service/
+    # hostname: localhost
+    ports:
+      - 8081:8081
+    links:
+      - mysql-1
+      - mongo
+      - api-gateway
+    
+  authentication-service:
+    container_name: authentication-service
+    build: authentication-service/
+    hostname: localhost
+    # network_mode: host
+    ports:
+      - 8095:8095
+    links:
+      - mysql-1
+      - api-gateway
+
+  chatbot-service:
+    container_name: chatbot-service
+    build: chatbot-service/
+    hostname: localhost
+    #network_mode: host
+    ports: 
+      - 8800:8800
+    links:
+      - api-gateway
+
+  bookings-management:
+    container_name: bookings-management
+    build: bookings-management/
+    ports:
+      - 8087:8087
+    links:
+      - mongo
+      - api-gateway
+    
+  chat-service:
+    container_name: chat-service
+    build: chat-service/
+    hostname: localhost
+    ports:
+      - 8086:8086
+    links:
+      - mongo
+      - api-gateway
+    
+  email-service:
+    container_name: email-service
+    build: email-service/
+    hostname: localhost
+    # network_mode: host
+    ports:
+      - 8085:8085
+    links:
+      - mongo
+      - api-gateway
+    
+  product-webapp:
+    container_name: product-webapp
+    build: webapp/
+    hostname: localhost
+    # network_mode: host
+    ports:
+      - 3000:3000
+    
+  payment-service:
+    container_name: payment-service
+    build: payment-service/
+    hostname: localhost
+    # network_mode: host
+    links:
+      - mysql-2
+      - api-gateway
+    ports:
+      - 8084:8084
